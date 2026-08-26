@@ -1,0 +1,4 @@
+{
+"timeout": 10,
+"retry_count": 3,
+"retry_delay": 0.5}
