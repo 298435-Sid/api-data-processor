@@ -11,9 +11,7 @@ class Config:
 
     def __init__(self, config_path: str):
         self.config_path = Path(config_path)
-        # self.timeout = None
-        # self.retry_count = None
-        # self.retry_delay = None
+
 
     def load(self) -> None:
         """Load configuration from the JSON file."""

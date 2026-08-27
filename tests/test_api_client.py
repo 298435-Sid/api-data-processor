@@ -48,10 +48,6 @@ def test_timeout_error():
         )
 
 
-# ---------------------------------------------------------
-# Retry Tests
-# ---------------------------------------------------------
-
 def test_retry_on_connection_error():
     client = APIClient(
         timeout=10,
@@ -75,7 +71,6 @@ def test_retry_on_connection_error():
                 "http://test-api/users"
             )
 
-        # Initial request + 3 retries = 4 attempts
         assert mock_get.call_count == 4
 
 
@@ -102,7 +97,6 @@ def test_retry_on_timeout():
                 "http://test-api/users"
             )
 
-        # Initial request + 3 retries = 4 attempts
         assert mock_get.call_count == 4
 
 
@@ -144,5 +138,4 @@ def test_retry_succeeds_after_temporary_failure():
         assert data[0]["name"] == "Arun"
         assert data[0]["email"] == "arun@example.com"
 
-        # Two failed attempts + one successful attempt
         assert mock_get.call_count == 3

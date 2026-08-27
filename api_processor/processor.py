@@ -45,12 +45,10 @@ class DataProcessor:
         logger.info("API URL: %s", self.api_url)
         logger.info("Fetching data from API")
 
-        # 1. Get data from API
         data = self.client.get_data(self.api_url)
 
         logger.info("Successfully received API response")
 
-        # 2. Validate overall response
         logger.info("Validating API response structure")
 
         self.validator.validate_response(data)
@@ -65,7 +63,6 @@ class DataProcessor:
         valid_records = []
         invalid_records = []
 
-        # 3. Validate and process each record
         for record in data:
 
             if self.validator.validate_record(record):
@@ -91,7 +88,6 @@ class DataProcessor:
             len(invalid_records)
         )
 
-        # 4. Save valid processed records
         logger.info(
             "Writing %d processed records to %s",
             len(valid_records),
@@ -107,10 +103,8 @@ class DataProcessor:
             "Processed records successfully written"
         )
 
-        # 5. Calculate processing time
         processing_time = time.time() - start_time
 
-        # 6. Generate summary
         summary = self.summary_generator.generate(
             total_records=total_records,
             valid_records=len(valid_records),

@@ -5,21 +5,12 @@ from api_processor.config import Config, ConfigError
 from api_processor.processor import DataProcessor
 
 
-# ---------------------------------------------------------
-# Logging Configuration
-# ---------------------------------------------------------
-
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
 logger = logging.getLogger(__name__)
-
-
-# ---------------------------------------------------------
-# Main Function
-# ---------------------------------------------------------
 
 def main():
 
@@ -43,9 +34,6 @@ def main():
 
     try:
 
-        # -------------------------------------------------
-        # Load Configuration
-        # -------------------------------------------------
 
         config = Config("config.json")
         config.load()
@@ -69,10 +57,6 @@ def main():
             config.retry_delay
         )
 
-        # -------------------------------------------------
-        # Create Data Processor
-        # -------------------------------------------------
-
         processor = DataProcessor(
             api_url=args.url,
             timeout=config.timeout,
@@ -80,17 +64,9 @@ def main():
             retry_delay=config.retry_delay
         )
 
-        # -------------------------------------------------
-        # Process API Data
-        # -------------------------------------------------
-
         summary = processor.process(
             output_file=args.output
         )
-
-        # -------------------------------------------------
-        # Display Processing Summary
-        # -------------------------------------------------
 
         print("\nProcessing Summary")
         print("------------------")
@@ -115,10 +91,6 @@ def main():
             f"{summary['processing_time']} sec"
         )
 
-    # -----------------------------------------------------
-    # Configuration Error
-    # -----------------------------------------------------
-
     except ConfigError as exc:
 
         logger.error(
@@ -130,19 +102,13 @@ def main():
             f"\nConfiguration error: {exc}"
         )
 
-    # -----------------------------------------------------
-    # API / Processing Error
-    # -----------------------------------------------------
-
     except RuntimeError as exc:
 
-        # Detailed technical error goes to the log
         logger.error(
             "Processing failed: %s",
             exc
         )
 
-        # Simple user-friendly message
         error_message = str(exc).lower()
 
         if "connection error" in error_message:
@@ -169,11 +135,6 @@ def main():
                 "\nProcessing failed: "
                 "An unexpected error occurred."
             )
-
-
-# ---------------------------------------------------------
-# Application Entry Point
-# ---------------------------------------------------------
 
 if __name__ == "__main__":
     main()
